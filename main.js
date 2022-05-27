@@ -1,4 +1,5 @@
 import './style.css';
+import './catatan-config';
 import liff from '@line/liff';
 
 window.onload = function () {
@@ -99,5 +100,10 @@ function displayIsInClientInfo() {
 }
 
 function registerButtonHandlers() {
-
+  document.getElementById('openWindowButton').addEventListener('click', function () {
+    liff.openWindow({
+      url: 'https://belajarubic-latihan-liff-2.netlify.app/', // Isi dengan Endpoint URL aplikasi web Anda
+      external: true
+    });
+  });
 }
