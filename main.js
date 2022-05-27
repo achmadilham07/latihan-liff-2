@@ -106,4 +106,16 @@ function registerButtonHandlers() {
       external: true
     });
   });
+
+  document.getElementById('closeWindowButton').addEventListener('click', function () {
+    if (!liff.isInClient()) {
+      sendAlertIfNotInClient();
+    } else {
+      liff.closeWindow();
+    }
+  });
+}
+
+function sendAlertIfNotInClient() {
+
 }
