@@ -1,6 +1,14 @@
 import './style.css';
-import './catatan-config';
+import { loadCatatan, editData, lihatData, simpanData, simpanEditData, hapusData, gantiMenu } from './catatan_config';
 import liff from '@line/liff';
+
+window.loadCatatan = loadCatatan;
+window.editData = editData;
+window.lihatData = lihatData;
+window.simpanData = simpanData;
+window.simpanEditData = simpanEditData;
+window.hapusData = hapusData;
+window.gantiMenu = gantiMenu;
 
 window.onload = function () {
   const useNodeJS = false;   // if you are not using a node server, set this value to false
@@ -144,6 +152,6 @@ function registerButtonHandlers() {
   });
 }
 
-function sendAlertIfNotInClient() {
+export function sendAlertIfNotInClient() {
   alert('This button is unavailable as LIFF is currently being opened in an external browser.');
 }

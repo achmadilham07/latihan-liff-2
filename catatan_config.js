@@ -1,6 +1,7 @@
+import { sendAlertIfNotInClient } from "./main";
 function loadCatatan() {
     if (localStorage.list_data && localStorage.id_data) {
-        list_data = JSON.parse(localStorage.getItem('list_data'));
+        var list_data = JSON.parse(localStorage.getItem('list_data'));
         var data_app = "";
         if (list_data.length > 0) {
             data_app = '<table class="table table-striped table-dark">';
@@ -14,7 +15,7 @@ function loadCatatan() {
                 '<th>Edit Agenda</th>' +
                 '</thead> <tbody>';
 
-            for (i in list_data) {
+            for (var i in list_data) {
                 data_app += '<tr>';
                 data_app +=
                     '<td>' + list_data[i].id_data + ' </td>' +
@@ -44,9 +45,9 @@ function loadCatatan() {
 function editData(id) {
 
     if (localStorage.list_data && localStorage.id_data) {
-        list_data = JSON.parse(localStorage.getItem('list_data'));
-        idx_data = 0;
-        for (i in list_data) {
+        var list_data = JSON.parse(localStorage.getItem('list_data'));
+        var idx_data = 0;
+        for (var i in list_data) {
             if (list_data[i].id_data == id) {
                 $("#eid_data").val(list_data[i].id_data);
                 $("#enama").val(list_data[i].nama);
@@ -64,9 +65,9 @@ function editData(id) {
 
 function lihatData(id) {
     if (localStorage.list_data && localStorage.id_data) {
-        list_data = JSON.parse(localStorage.getItem('list_data'));
-        idx_data = 0;
-        for (i in list_data) {
+        var list_data = JSON.parse(localStorage.getItem('list_data'));
+        var idx_data = 0;
+        for (var i in list_data) {
             if (list_data[i].id_data == id) {
                 $("#lid_data").val(list_data[i].id_data);
                 $("#lnama").val(list_data[i].nama);
@@ -80,7 +81,6 @@ function lihatData(id) {
 
     }
 }
-
 
 function simpanData() {
 
@@ -97,16 +97,18 @@ function simpanData() {
         });
     }
 
-    nama = $('#nama').val();
-    tanggal = $('#tanggal').val();
-    agenda = $('#agenda').val();
+    var nama = $('#nama').val();
+    var tanggal = $('#tanggal').val();
+    var agenda = $('#agenda').val();
+    var id_data = 0;
+    var list_data = [];
 
     if (localStorage.list_data && localStorage.id_data) {
         list_data = JSON.parse(localStorage.getItem('list_data'));
         id_data = parseInt(localStorage.getItem('id_data'));
     }
     else {
-        list_data = [];
+        var list_data = [];
         id_data = 0;
     }
 
@@ -135,12 +137,16 @@ function simpanEditData() {
         });
     }
 
-    id_data = $('#eid_data').val();
-    nama = $('#enama').val();
-    tanggal = $('#etanggal').val();
-    agenda = $('#eagenda').val();
+    var list_data = JSON.parse(localStorage.getItem('list_data'));
+    var id_data = $("#eid_data").val();
+    for (var i in list_data) {
+        if (list_data[i].id_data == id_data) {
+            list_data[i].nama = $("#enama").val();
+            list_data[i].tanggal = $("#etanggal").val();
+            list_data[i].agenda = $("#eagenda").val();
+        }
+    }
 
-    list_data.push({ 'id_data': id_data, 'nama': nama, 'tanggal': tanggal, 'agenda': agenda });
     localStorage.setItem('list_data', JSON.stringify(list_data));
     document.getElementById('eform-data').reset();
     gantiMenu('list-catatan');
@@ -164,10 +170,10 @@ function hapusData(id) {
     }
 
     if (localStorage.list_data && localStorage.id_data) {
-        list_data = JSON.parse(localStorage.getItem('list_data'));
+        var list_data = JSON.parse(localStorage.getItem('list_data'));
 
-        idx_data = 0;
-        for (i in list_data) {
+        var idx_data = 0;
+        for (var i in list_data) {
             if (list_data[i].id_data == id) {
                 list_data.splice(idx_data, 1);
             }
@@ -187,8 +193,7 @@ function gantiMenu(menu) {
         $('#list-catatan').fadeIn();
         $('#edit-data').hide();
         $('#lihat-data').hide();
-    }
-    else if (menu == "tambah-catatan") {
+    } else if (menu == "tambah-catatan") {
         $('#tambah-catatan').fadeIn();
         $('#list-catatan').hide();
         $('#edit-data').hide();
@@ -205,3 +210,5 @@ function gantiMenu(menu) {
         $('#list-catatan').hide();
     }
 }
+
+export { loadCatatan, editData, lihatData, simpanData, simpanEditData, hapusData, gantiMenu };
